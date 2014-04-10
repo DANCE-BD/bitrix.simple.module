@@ -1,0 +1,2 @@
+DROP TRIGGER IF EXISTS xdev_mdstore_domain_entity_add_timestamp;
+DROP TABLE xdev_mdstore_domain_entity;
