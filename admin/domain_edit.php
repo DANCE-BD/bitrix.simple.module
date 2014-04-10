@@ -101,7 +101,9 @@ if(
 
 	if($result->isSuccess())
 	{
-		$ID = $result->getId();
+		if(!$ID)
+			$ID = $result->getId();
+
 		if($_REQUEST["save"] <> '')
 			LocalRedirect($strRedirect_admin);
 		elseif($_REQUEST["apply"] <> '')
