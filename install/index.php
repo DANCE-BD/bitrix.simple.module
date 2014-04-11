@@ -1,10 +1,10 @@
 <?
 IncludeModuleLangFile(__FILE__);
 
-class xdev_mdstore extends CModule
+class simple_module extends CModule
 {
-	const MODULE_ID = "xdev.mdstore";
-	public $MODULE_ID = "xdev.mdstore";
+	const MODULE_ID = "simple.module";
+	public $MODULE_ID = "simple.module";
 	public $MODULE_VERSION;
 	public $MODULE_VERSION_DATE;
 	public $MODULE_NAME;
@@ -19,11 +19,11 @@ class xdev_mdstore extends CModule
 		$this->MODULE_VERSION = $arModuleVersion["VERSION"];
 
 		$this->MODULE_VERSION_DATE = $arModuleVersion["VERSION_DATE"];
-		$this->MODULE_NAME = GetMessage("MD_STORE_MODULE_NAME");
-		$this->MODULE_DESCRIPTION = GetMessage("MD_STORE_MODULE_DESC");
+		$this->MODULE_NAME = GetMessage("SM_MODULE_NAME");
+		$this->MODULE_DESCRIPTION = GetMessage("SM_MODULE_DESC");
 
-		$this->PARTNER_NAME = GetMessage("MD_STORE_PARTNER_NAME");
-		$this->PARTNER_URI = GetMessage("MD_STORE_PARTNER_URI");
+		$this->PARTNER_NAME = GetMessage("SM_PARTNER_NAME");
+		$this->PARTNER_URI = GetMessage("SM_PARTNER_URI");
 	}
 
 	public function InstallDB($arParams = array())
@@ -121,7 +121,7 @@ class xdev_mdstore extends CModule
 		$this->errors = false;
 		if($step < 2)
 		{
-			$APPLICATION->IncludeAdminFile(GetMessage("MD_STORE_UNINSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/unstep1.php");
+			$APPLICATION->IncludeAdminFile(GetMessage("SM_UNINSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/unstep1.php");
 		}
 		elseif($step == 2)
 		{
@@ -137,7 +137,7 @@ class xdev_mdstore extends CModule
 				$this->errors = $e->GetMessage();
 				$APPLICATION->ThrowException($this->errors);
 			}
-			$APPLICATION->IncludeAdminFile(GetMessage("MD_STORE_UNINSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/unstep2.php");
+			$APPLICATION->IncludeAdminFile(GetMessage("SM_UNINSTALL_TITLE"), $_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/unstep2.php");
 		}
 
 		return empty($this->errors);
@@ -148,9 +148,9 @@ class xdev_mdstore extends CModule
                 return array(
                         "reference_id" => array("D", "M", "W"),
                         "reference" => array(
-                                "[D] ".GetMessage("MD_STORE_ACCESS_DENIED"),
-                                "[M] ".GetMessage("MD_STORE_ACCESS_MODERATION"),
-                                "[W] ".GetMessage("MD_STORE_ACCESS_FULL")
+                                "[D] ".GetMessage("SM_ACCESS_DENIED"),
+                                "[M] ".GetMessage("SM_ACCESS_MODERATION"),
+                                "[W] ".GetMessage("SM_ACCESS_FULL")
                         )
 		);
         }

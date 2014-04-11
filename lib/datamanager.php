@@ -1,5 +1,5 @@
 <?
-namespace XPriceDomain;
+namespace SimpleModule;
 
 use Bitrix\Main\Entity\Event;
 use Bitrix\Main\Entity\Base;

@@ -7,19 +7,19 @@ CPageOption::GetOptionString("main", "nav_page_in_session", "N");
  * Entity edit page
  * @var string
  */
-$strEditPath = BX_ROOT."/admin/xdev_mdstore_domain_edit.php?lang=" . LANGUAGE_ID;
+$strEditPath = BX_ROOT."/admin/simple_module_domain_edit.php?lang=" . LANGUAGE_ID;
 
 /**
  * Endity datamanager classname
  * @var string
  */
-$sDataClassName = "\XPriceDomain\EntityTable";
+$sDataClassName = "\SimpleModule\EntityTable";
 
 /**
  * Module id
  * @var string
  */
-$module_id = "xdev.mdstore";
+$module_id = "simple.module";
 
 $MODULE_RIGHT = $APPLICATION->GetGroupRight($module_id);
 if($MODULE_RIGHT == "D") $APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
@@ -40,7 +40,7 @@ foreach($sDataClassName::getEntity()->getFields() as $field)
 
 		if(strlen($field->getTitle()))
 		{
-			$title = GetMessage(sprintf("MD_STORE_%s_FIELD_ADMIN", $field->getName()));
+			$title = GetMessage(sprintf("SM_%s_FIELD_ADMIN", $field->getName()));
 			$arHeaders[] = array(
 				"id" => $field->getName(),
 				"content" => strlen($title) ? $title : $field->getTitle(),
@@ -244,16 +244,16 @@ if($MODULE_RIGHT >= "W")
 {
 	$aMenu[] = array(
 		"ICON" => "btn_new",
-		"TEXT" => GetMessage("MD_STORE_ENTITY_LIST_ADD_RECORD"),
+		"TEXT" => GetMessage("SM_ENTITY_LIST_ADD_RECORD"),
 		"LINK" => $strEditPath,
-		"TITLE" => GetMessage("MD_STORE_ENTITY_LIST_ADD_RECORD_TITLE")
+		"TITLE" => GetMessage("SM_ENTITY_LIST_ADD_RECORD_TITLE")
 	);
 }
 $lAdmin->AddAdminContextMenu($aMenu);
 
 $lAdmin->CheckListMode();
 
-$APPLICATION->SetTitle(GetMessage("MD_STORE_TITLE_ADMIN"));
+$APPLICATION->SetTitle(GetMessage("SM_TITLE_ADMIN"));
 
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_after.php");
 

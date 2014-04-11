@@ -1,24 +1,24 @@
 <?
 \Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
 
-$RIGHTS = $APPLICATION->GetGroupRight("xdev.mdstore");
+$RIGHTS = $APPLICATION->GetGroupRight("simple.module");
 if($RIGHTS > "D")
 {
 	$arItems = array();
 	if($RIGHTS >= "W")
 		$arItems[] = array(
-			"text" => GetMessage("MD_STORE_MENU_ENTITY_LIST"),
-			"url" => "xdev_mdstore_domain_admin.php?lang=".LANGUAGE_ID,
-			"title" => GetMessage("MD_STORE_MENU_ENTITY_LIST_ALT"),
-			"more_url" => array("xdev_mdstore_domain_edit.php")
+			"text" => GetMessage("SM_MENU_ENTITY_LIST"),
+			"url" => "simple_module_domain_admin.php?lang=".LANGUAGE_ID,
+			"title" => GetMessage("SM_MENU_ENTITY_LIST_ALT"),
+			"more_url" => array("simple_module_domain_edit.php")
 		);
 	$aMenu = array(
 		"parent_menu" => "global_menu_services",
 		"sort" => 10000,
-		"text" => GetMessage("MD_STORE_MENU"),
-		"title"=> GetMessage("MD_STORE_MENU_ALT"),
+		"text" => GetMessage("SM_MENU"),
+		"title"=> GetMessage("SM_MENU_ALT"),
 		"icon" => "sale_menu_icon_orders",
-		"items_id" => "menu_xdev.mdstore",
+		"items_id" => "menu_simple.module",
 		"items" => $arItems
 	);
 	return $aMenu;

@@ -7,25 +7,25 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/tools/prop_userid.p
  * List redirect page
  * @var string
  */
-$strRedirect_admin = BX_ROOT."/admin/xdev_mdstore_domain_admin.php?lang=" . LANGUAGE_ID;
+$strRedirect_admin = BX_ROOT."/admin/simple_module_domain_admin.php?lang=" . LANGUAGE_ID;
 
 /**
  * Success redirect page
  * @var string
  */
-$strRedirect = BX_ROOT."/admin/xdev_mdstore_domain_edit.php?lang=" . LANGUAGE_ID;
+$strRedirect = BX_ROOT."/admin/simple_module_domain_edit.php?lang=" . LANGUAGE_ID;
 
 /**
  * Endity datamanager classname
  * @var string
  */
-$sDataClassName = "\XPriceDomain\EntityTable";
+$sDataClassName = "\SimpleModule\EntityTable";
 
 /**
  * Module id
  * @var string
  */
-$module_id = "xdev.mdstore";
+$module_id = "simple.module";
 
 $MODULE_RIGHT = $APPLICATION->GetGroupRight($module_id);
 if($MODULE_RIGHT < "W") $APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
@@ -46,10 +46,10 @@ if(!$rs->ExtractFields("str_"))
 	$str_SORT = 500;
 }
 
-$APPLICATION->SetTitle($ID > 0 ? GetMessage("MD_STORE_ENTITY_EDIT_TITLE", array("#ID#" => $ID)) : GetMessage("MD_STORE_ENTITY_NEW_TITLE"));
+$APPLICATION->SetTitle($ID > 0 ? GetMessage("SM_ENTITY_EDIT_TITLE", array("#ID#" => $ID)) : GetMessage("SM_ENTITY_NEW_TITLE"));
 
 $aTabs = array();
-$aTabs[] = array("DIV" => "edit1", "TAB" => GetMessage("MD_STORE_ENTITY_TAB1"), "TITLE" => GetMessage("MD_STORE_ENTITY_TAB1_TITLE"));
+$aTabs[] = array("DIV" => "edit1", "TAB" => GetMessage("SM_ENTITY_TAB1"), "TITLE" => GetMessage("SM_ENTITY_TAB1_TITLE"));
 
 $strError = "";
 $tabControl = new CAdminForm($sTableID, $aTabs);
@@ -81,13 +81,16 @@ if(
 	$arFields = array();
 	foreach($arEditFields as $key => $field)
 	{
-		if($field instanceof Bitrix\Main\Entity\BooleanField)
+		if(!in_array($key, array("TIMESTAMP_X")))
 		{
-			$arFields[$key] = $_REQUEST[$key] == "Y" ? "Y" : "N";
-		}
-		else
-		{
-			$arFields[$key] = $_REQUEST[$key];
+			if($field instanceof Bitrix\Main\Entity\BooleanField)
+			{
+				$arFields[$key] = $_REQUEST[$key] == "Y" ? "Y" : "N";
+			}
+			else
+			{
+				$arFields[$key] = $_REQUEST[$key];
+			}
 		}
 	}
 
@@ -125,7 +128,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_aft
 
 $aMenu = array(
 	array(
-		"TEXT" => GetMessage("MD_STORE_ENTITY_BACK_TO_ADMIN"),
+		"TEXT" => GetMessage("SM_ENTITY_BACK_TO_ADMIN"),
 		"LINK" => $strRedirect_admin,
 		"ICON" => "btn_list",
 	)
@@ -134,16 +137,16 @@ if($ID > 0)
 {
 	$aMenu[] = array("SEPARATOR" => "Y");
 	$aMenu[] = array(
-		"TEXT"	=> GetMessage("MD_STORE_ENTITY_NEW_RECORD"),
+		"TEXT"	=> GetMessage("SM_ENTITY_NEW_RECORD"),
 		"LINK"	=> $strRedirect,
 		"ICON"	=> "btn_new",
-		"TITLE"	=> GetMessage("MD_STORE_ENTITY_NEW_RECORD"),
+		"TITLE"	=> GetMessage("SM_ENTITY_NEW_RECORD"),
 	);
 	$aMenu[] = array(
-		"TEXT"	=> GetMessage("MD_STORE_ENTITY_DELETE_RECORD"),
-		"LINK"	=> "javascript:if(confirm('" . GetMessageJS("MD_STORE_ENTITY_DELETE_RECORD_CONFIRM") . "')) window.location='" . $strRedirect_admin . "&action=delete&ID=" . $ID . "&" . bitrix_sessid_get() . "';",
+		"TEXT"	=> GetMessage("SM_ENTITY_DELETE_RECORD"),
+		"LINK"	=> "javascript:if(confirm('" . GetMessageJS("SM_ENTITY_DELETE_RECORD_CONFIRM") . "')) window.location='" . $strRedirect_admin . "&action=delete&ID=" . $ID . "&" . bitrix_sessid_get() . "';",
 		"ICON"	=> "btn_delete",
-		"TITLE"	=> GetMessage("MD_STORE_ENTITY_DELETE_RECORD"),
+		"TITLE"	=> GetMessage("SM_ENTITY_DELETE_RECORD"),
 	);
 }
 

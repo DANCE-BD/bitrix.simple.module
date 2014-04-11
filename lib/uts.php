@@ -1,5 +1,5 @@
 <?
-namespace XPriceDomain;
+namespace SimpleModule;
 
 class UtsEntityTable extends \Bitrix\Main\Entity\DataManager
 {
@@ -15,7 +15,7 @@ class UtsEntityTable extends \Bitrix\Main\Entity\DataManager
 
 	public static function getTableName()
 	{
-		return "xdev_mdstore_uts_domain_entity";
+		return "simple_module_uts_domain_entity";
 	}
 
 	public static function isUts()
@@ -40,7 +40,7 @@ class UtsEntityTable extends \Bitrix\Main\Entity\DataManager
 				"primary" => true
 			),
 			"SOURCE_OBJECT" => array(
-				"data_type" => "XPriceDomain\Entity",
+				"data_type" => "SimpleModule\Entity",
 				"reference" => array("=this.VALUE_ID" => "ref.ID")
 			),
 		), $fieldsMap);

@@ -1,5 +1,5 @@
 <?
-namespace XPriceDomain;
+namespace SimpleModule;
 
 use Bitrix\Main\Entity\DataManager;
 
@@ -17,7 +17,7 @@ class UtmEntityTable extends DataManager
 
 	public static function getTableName()
 	{
-		return "xdev_mdstore_utm_domain_entity";
+		return "simple_module_utm_domain_entity";
 	}
 
 	public static function isUtm()
@@ -45,7 +45,7 @@ class UtmEntityTable extends DataManager
 				"data_type" => "integer"
 			),
 			"SOURCE_OBJECT" => array(
-				"data_type" => "XPriceDomain\Entity",
+				"data_type" => "SimpleModule\Entity",
 				"reference" => array("=this.VALUE_ID" => "ref.ID")
 			),
 			"FIELD_ID" => array(

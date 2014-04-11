@@ -1,11 +1,11 @@
 <?
-$MESS["MD_STORE_ENTITY_ID_FIELD"] = "ID";
-$MESS["MD_STORE_ENTITY_TIMESTAMP_X_FIELD"] = "Время изменения";
-$MESS["MD_STORE_ENTITY_ACTIVE_FIELD"] = "Активность";
-$MESS["MD_STORE_ENTITY_LID_FIELD"] = "Сайт";
-$MESS["MD_STORE_ENTITY_SORT_FIELD"] = "Индекс сортировки";
+$MESS["SM_ENTITY_ID_FIELD"] = "ID";
+$MESS["SM_ENTITY_TIMESTAMP_X_FIELD"] = "Время изменения";
+$MESS["SM_ENTITY_ACTIVE_FIELD"] = "Активность";
+$MESS["SM_ENTITY_LID_FIELD"] = "Сайт";
+$MESS["SM_ENTITY_SORT_FIELD"] = "Индекс сортировки";
 $MESS[""] = "";
 
-$MESS["MD_STORE_SORT_FIELD_ADMIN"] = "Сорт.";
+$MESS["SM_SORT_FIELD_ADMIN"] = "Сорт.";
 $MESS[""] = "";
 ?>
