@@ -36,7 +36,6 @@ class simple_module extends CModule
 		if($errors !== false)
 			throw new Exception(implode("<br>", $errors));
 
-		// RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "OrderProcessing\CUserTypeTime", "GetUserTypeDescription");
 		RegisterModule(self::MODULE_ID);
 
 		return true;
@@ -52,7 +51,6 @@ class simple_module extends CModule
 		if($errors !== false)
 			throw new Exception(implode("<br>", $errors));
 
-		// UnRegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "OrderProcessing\CUserTypeTime", "GetUserTypeDescription");
 		UnRegisterModule(self::MODULE_ID);
 
 		return true;
@@ -78,6 +76,32 @@ class simple_module extends CModule
 		return true;
 	}
 
+	public function InstallUserTypes()
+	{
+		RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
+
+		return true;
+	}
+
+	public function UnInstallUserTypes()
+	{
+		if(
+			(!array_key_exists("savedata", $arParams) || $arParams["savedata"] != "Y")
+			&& \CModule::IncludeModule(self::MODULE_ID)
+		)
+		{
+			$ob = new \CUserTypeEntity();
+
+			$arFields = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields(XPriceDomain\EntityTable::getUfId());
+			foreach($arFields as $key => $val)
+				$ob->Delete($val["ID"]);
+
+			UnRegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
+		}
+
+		return true;
+	}
+
 	public function InstallFiles($arParams = array())
 	{
 		CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/admin/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/admin");
@@ -100,6 +124,7 @@ class simple_module extends CModule
 		try
 		{
 			$this->InstallDB();
+			$this->InstallUserTypes();
 			$this->InstallFiles();
 			$this->InstallEvents();
 			$this->InstallAgents();
@@ -127,6 +152,7 @@ class simple_module extends CModule
 		{
 			try
 			{
+				$this->UnInstallUserTypes(array("savedata" => $_REQUEST["savedata"]));
 				$this->UnInstallDB(array("savedata" => $_REQUEST["savedata"]));
 				$this->UnInstallFiles();
 				$this->UnInstallEvents();
