@@ -34,7 +34,7 @@ class simple_module extends CModule
 		if(!array_key_exists("savedata", $arParams) || $arParams["savedata"] != "Y")
 			$errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/db/".ToLower($DB->type)."/install.sql");
 		if($errors !== false)
-			throw new Exception(implode("<br>", $errors));
+			throw new \Exception(implode("<br>", $errors));
 
 		RegisterModule(self::MODULE_ID);
 
@@ -49,7 +49,7 @@ class simple_module extends CModule
 		if(!array_key_exists("savedata", $arParams) || $arParams["savedata"] != "Y")
 			$errors = $DB->RunSQLBatch($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/db/".ToLower($DB->type)."/uninstall.sql");
 		if($errors !== false)
-			throw new Exception(implode("<br>", $errors));
+			throw new \Exception(implode("<br>", $errors));
 
 		UnRegisterModule(self::MODULE_ID);
 
@@ -78,21 +78,55 @@ class simple_module extends CModule
 
 	public function InstallUserTypes()
 	{
-		RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
+		$arFieldsArray = array();
+
+		$arFields = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields(SimpleModule\EntityTable::getUfId());
+		if(!is_set($arFields, "UF_LOCATION"))
+			$arFieldsArray["UF_LOCATION"] = array(
+				"ENTITY_ID" => SimpleModule\EntityTable::getUfId(),
+				"FIELD_NAME" => "UF_LOCATION",
+				"USER_TYPE_ID" => "xdev_pdlocation",
+				"SORT" => 100,
+				"MULTIPLE" => "Y",
+				"MANDATORY" => "Y",
+				"SHOW_FILTER" => "N",
+				"SHOW_IN_LIST" => "Y",
+				"EDIT_IN_LIST" => "N",
+				"IS_SEARCHABLE" => "N",
+				"SETTINGS" => array(),
+				"EDIT_FORM_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_EDIT_FORM_LABEL")),
+				"LIST_COLUMN_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_COLUMN_LABEL")),
+				"LIST_FILTER_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_FILTER_LABEL")),
+			);
+
+		if(!empty($arFieldsArray))
+		{
+			AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\CUserTypeLocation", "GetUserTypeDescription"));
+			RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
+
+			foreach($arFieldsArray as $ar)
+			{
+				$ob = new CUserTypeEntity();
+
+				$GLOBALS["APPLICATION"]->ResetException();
+				if(!$res = $ob->Add($ar))
+				{
+					$e = $GLOBALS["APPLICATION"]->GetException();
+					throw new \Exception($e->getString());
+				}
+			}
+		}
 
 		return true;
 	}
 
-	public function UnInstallUserTypes()
+	public function UnInstallUserTypes($arParams = array())
 	{
-		if(
-			(!array_key_exists("savedata", $arParams) || $arParams["savedata"] != "Y")
-			&& \CModule::IncludeModule(self::MODULE_ID)
-		)
+		if((!array_key_exists("savedata", $arParams) || $arParams["savedata"] != "Y"))
 		{
 			$ob = new \CUserTypeEntity();
 
-			$arFields = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields(XPriceDomain\EntityTable::getUfId());
+			$arFields = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields(SimpleModule\EntityTable::getUfId());
 			foreach($arFields as $key => $val)
 				$ob->Delete($val["ID"]);
 
@@ -120,17 +154,25 @@ class simple_module extends CModule
 
 	public function DoInstall()
 	{
+		global $DB;
+		$DB->StartTransaction();
 		$this->errors = false;
+
 		try
 		{
 			$this->InstallDB();
+			\CModule::IncludeModule(self::MODULE_ID);
+
 			$this->InstallUserTypes();
 			$this->InstallFiles();
 			$this->InstallEvents();
 			$this->InstallAgents();
+
+			$DB->Commit();
 		}
-		catch(Exception $e)
+		catch(\Exception $e)
 		{
+			$DB->Rollback();
 			$this->errors = $e->GetMessage();
 			$GLOBALS["APPLICATION"]->ThrowException($this->errors);
 		}
@@ -150,16 +192,22 @@ class simple_module extends CModule
 		}
 		elseif($step == 2)
 		{
+			$DB->StartTransaction();
 			try
 			{
+				\CModule::IncludeModule(self::MODULE_ID);
+
 				$this->UnInstallUserTypes(array("savedata" => $_REQUEST["savedata"]));
 				$this->UnInstallDB(array("savedata" => $_REQUEST["savedata"]));
 				$this->UnInstallFiles();
 				$this->UnInstallEvents();
 				$this->UnInstallAgents();
+
+				$DB->Commit();
 			}
-			catch(Exception $e)
+			catch(\Exception $e)
 			{
+				$DB->Rollback();
 				$this->errors = $e->GetMessage();
 				$APPLICATION->ThrowException($this->errors);
 			}
