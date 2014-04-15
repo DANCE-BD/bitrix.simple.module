@@ -1,7 +1,5 @@
-bitrix.simple.module
+Usage
 ====================
-
-Bitrix framework module example
 
 To rename module to my.module can use the following command:
 
