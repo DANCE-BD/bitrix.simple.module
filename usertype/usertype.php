@@ -1,10 +1,10 @@
 <?
-namespace SimpleModule;
+namespace SimpleModule\Usertype;
 use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
 
-abstract class CUserTypeAutoComplete extends \CUserTypeInteger
+abstract class AutoComplete extends \CUserTypeInteger
 {
 	abstract public static function GetList($arSort=array(), $arFilter=array(), $arNavParams=false, $arUserField);
 

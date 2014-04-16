@@ -1,16 +1,16 @@
 <?
-namespace SimpleModule;
+namespace SimpleModule\Usertype;
 use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
 
-class CUserTypeLocation extends CUserTypeAutoComplete
+class StatLocation extends AutoComplete
 {
 	function GetUserTypeDescription()
 	{
 		return array(
-			"USER_TYPE_ID" => "sm_location",
-			"CLASS_NAME" => "SimpleModule\\CUserTypeLocation",
+			"USER_TYPE_ID" => "sm_statlocation",
+			"CLASS_NAME" => "SimpleModule\\Usertype\\StatLocation",
 			"DESCRIPTION" => GetMessage("SM_USER_TYPE_LOCATION_DESCRIPTION"),
 			"BASE_TYPE" => "int",
 		);

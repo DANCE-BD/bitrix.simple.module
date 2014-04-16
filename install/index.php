@@ -102,7 +102,7 @@ class simple_module extends CModule
 		if(!empty($arFieldsArray))
 		{
 			AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\CUserTypeLocation", "GetUserTypeDescription"));
-			RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
+			RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription");
 
 			foreach($arFieldsArray as $ar)
 			{
@@ -130,7 +130,7 @@ class simple_module extends CModule
 			foreach($arFields as $key => $val)
 				$ob->Delete($val["ID"]);
 
-			UnRegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
+			UnRegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription");
 		}
 
 		return true;
