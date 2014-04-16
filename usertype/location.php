@@ -9,7 +9,7 @@ class StatLocation extends AutoComplete
 	function GetUserTypeDescription()
 	{
 		return array(
-			"USER_TYPE_ID" => "sm_statlocation",
+			"USER_TYPE_ID" => "sm_statloc",
 			"CLASS_NAME" => "SimpleModule\\Usertype\\StatLocation",
 			"DESCRIPTION" => GetMessage("SM_USER_TYPE_LOCATION_DESCRIPTION"),
 			"BASE_TYPE" => "int",

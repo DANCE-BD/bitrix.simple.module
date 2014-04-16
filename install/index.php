@@ -85,7 +85,7 @@ class simple_module extends CModule
 			$arFieldsArray["UF_LOCATION"] = array(
 				"ENTITY_ID" => SimpleModule\EntityTable::getUfId(),
 				"FIELD_NAME" => "UF_LOCATION",
-				"USER_TYPE_ID" => "xdev_pdlocation",
+				"USER_TYPE_ID" => "sm_statloc",
 				"SORT" => 100,
 				"MULTIPLE" => "Y",
 				"MANDATORY" => "Y",
@@ -101,8 +101,8 @@ class simple_module extends CModule
 
 		if(!empty($arFieldsArray))
 		{
-			AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\CUserTypeLocation", "GetUserTypeDescription"));
 			RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription");
+			AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription"));
 
 			foreach($arFieldsArray as $ar)
 			{
