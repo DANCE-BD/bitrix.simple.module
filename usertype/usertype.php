@@ -10,7 +10,7 @@ abstract class CUserTypeAutoComplete extends \CUserTypeInteger
 
 	protected static function GetDefaultComponentTemplate()
 	{
-		return ".xdev";
+		return "usertype";
 	}
 
 	protected static function GetOtherSymbol()
