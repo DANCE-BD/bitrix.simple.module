@@ -79,32 +79,31 @@ class simple_module extends CModule
 	public function InstallUserTypes()
 	{
 		$arFieldsArray = array();
+		$arFieldsArray["UF_LOCATION"] = array(
+			"ENTITY_ID" => SimpleModule\EntityTable::getUfId(),
+			"FIELD_NAME" => "UF_LOCATION",
+			"USER_TYPE_ID" => "sm_statloc",
+			"SORT" => 100,
+			"MULTIPLE" => "Y",
+			"MANDATORY" => "Y",
+			"SHOW_FILTER" => "N",
+			"SHOW_IN_LIST" => "Y",
+			"EDIT_IN_LIST" => "N",
+			"IS_SEARCHABLE" => "N",
+			"SETTINGS" => array(),
+			"EDIT_FORM_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_EDIT_FORM_LABEL")),
+			"LIST_COLUMN_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_COLUMN_LABEL")),
+			"LIST_FILTER_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_FILTER_LABEL")),
+		);
+
+		RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription");
+		$GLOBALS["CACHE_MANAGER"]->clean("b_module_to_module"); // Bitrix clean bug
+		AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription"));
 
 		$arFields = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields(SimpleModule\EntityTable::getUfId());
-		if(!is_set($arFields, "UF_LOCATION"))
-			$arFieldsArray["UF_LOCATION"] = array(
-				"ENTITY_ID" => SimpleModule\EntityTable::getUfId(),
-				"FIELD_NAME" => "UF_LOCATION",
-				"USER_TYPE_ID" => "sm_statloc",
-				"SORT" => 100,
-				"MULTIPLE" => "Y",
-				"MANDATORY" => "Y",
-				"SHOW_FILTER" => "N",
-				"SHOW_IN_LIST" => "Y",
-				"EDIT_IN_LIST" => "N",
-				"IS_SEARCHABLE" => "N",
-				"SETTINGS" => array(),
-				"EDIT_FORM_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_EDIT_FORM_LABEL")),
-				"LIST_COLUMN_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_COLUMN_LABEL")),
-				"LIST_FILTER_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_FILTER_LABEL")),
-			);
-
-		if(!empty($arFieldsArray))
+		foreach($arFieldsArray as $ar)
 		{
-			RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription");
-			AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription"));
-
-			foreach($arFieldsArray as $ar)
+			if(!is_set($arFields, $ar["FIELD_NAME"]))
 			{
 				$ob = new CUserTypeEntity();
 
