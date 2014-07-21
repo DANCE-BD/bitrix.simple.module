@@ -1,4 +1,4 @@
-CREATE TABLE simple_module_domain_entity (
+CREATE TABLE IF NOT EXISTS simple_module_domain_entity (
 	ID		int(11) unsigned NOT NULL AUTO_INCREMENT,
  	LID		char(2) COLLATE utf8_unicode_ci NOT NULL,
 	TIMESTAMP_X	timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,

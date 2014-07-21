@@ -13,7 +13,7 @@ class EntityTable extends DataManager
 
 	public static function getUfId()
 	{
-		return "X_MDSTORE_ENTITY";
+		return "SM_ENTITY";
 	}
 
 	public static function getTableName()

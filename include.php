@@ -5,7 +5,9 @@ CModule::AddAutoloadClasses(
 		"SimpleModule\\UtmEntityTable" => "lib/utm.php",
 		"SimpleModule\\UtsEntityTable" => "lib/uts.php",
 		"SimpleModule\\DataManager" => "lib/datamanager.php",
-		"SimpleModule\\EntityTable" => "lib/entity.php"
+		"SimpleModule\\EntityTable" => "lib/entity.php",
+		"SimpleModule\\Usertype\\AutoComplete" => "usertype/usertype.php",
+		"SimpleModule\\Usertype\\StatLocation" => "usertype/location.php"
 	)
 );
 ?>

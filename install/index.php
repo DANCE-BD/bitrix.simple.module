@@ -78,14 +78,11 @@ class simple_module extends CModule
 
 	public function InstallUserTypes()
 	{
-		$arFieldsArray = array();
-
-		$arFields = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields(SimpleModule\EntityTable::getUfId());
-		if(!is_set($arFields, "UF_LOCATION"))
-			$arFieldsArray["UF_LOCATION"] = array(
+		$arFieldsArray = array(
+			array(
 				"ENTITY_ID" => SimpleModule\EntityTable::getUfId(),
 				"FIELD_NAME" => "UF_LOCATION",
-				"USER_TYPE_ID" => "xdev_pdlocation",
+				"USER_TYPE_ID" => "sm_statloc",
 				"SORT" => 100,
 				"MULTIPLE" => "Y",
 				"MANDATORY" => "Y",
@@ -97,14 +94,17 @@ class simple_module extends CModule
 				"EDIT_FORM_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_EDIT_FORM_LABEL")),
 				"LIST_COLUMN_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_COLUMN_LABEL")),
 				"LIST_FILTER_LABEL" => array(LANGUAGE_ID => GetMessage("SM_USER_TYPE_LOCATION_LIST_FILTER_LABEL")),
-			);
+			)
+		);
 
-		if(!empty($arFieldsArray))
+		RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription");
+		$GLOBALS["CACHE_MANAGER"]->clean("b_module_to_module"); // Bitrix clean module dependences bug
+		AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription"));
+
+		$arFields = $GLOBALS["USER_FIELD_MANAGER"]->GetUserFields(SimpleModule\EntityTable::getUfId());
+		foreach($arFieldsArray as $ar)
 		{
-			AddEventHandler("main", "OnUserTypeBuildList", array("SimpleModule\CUserTypeLocation", "GetUserTypeDescription"));
-			RegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
-
-			foreach($arFieldsArray as $ar)
+			if(!is_set($arFields, $ar["FIELD_NAME"]))
 			{
 				$ob = new CUserTypeEntity();
 
@@ -130,7 +130,7 @@ class simple_module extends CModule
 			foreach($arFields as $key => $val)
 				$ob->Delete($val["ID"]);
 
-			UnRegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\CUserTypeLocation", "GetUserTypeDescription");
+			UnRegisterModuleDependences("main", "OnUserTypeBuildList", self::MODULE_ID, "SimpleModule\\Usertype\\StatLocation", "GetUserTypeDescription");
 		}
 
 		return true;
@@ -140,6 +140,7 @@ class simple_module extends CModule
 	{
 		CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/admin/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/admin");
 		CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/themes/.default/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/themes/.default");
+		CopyDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/templates/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/templates", false, true);
 
 		return true;
 	}
@@ -147,7 +148,8 @@ class simple_module extends CModule
 	public function UnInstallFiles()
 	{
 		DeleteDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/admin/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/admin");
-		DeleteDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/themes/.default", $_SERVER["DOCUMENT_ROOT"]."/bitrix/themes/.default");
+		DeleteDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/themes/.default/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/themes/.default");
+		DeleteDirFiles($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/".self::MODULE_ID."/install/templates/", $_SERVER["DOCUMENT_ROOT"]."/bitrix/templates");
 
 		return true;
 	}
