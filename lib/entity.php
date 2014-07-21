@@ -53,6 +53,8 @@ class EntityTable extends DataManager
 				"data_type" => "Bitrix\Main\Site",
 				"reference" => array("=this.LID" => "ref.LID"),
 			),
+			/*
+			deprecated
 			"UTM_OBJECT" => array(
 				"data_type" => "UtmEntity",
 				"reference" => array("=this.ID" => "ref.VALUE_ID"),
@@ -61,6 +63,7 @@ class EntityTable extends DataManager
 				"data_type" => "UtsEntity",
 				"reference" => array("=this.ID" => "ref.VALUE_ID"),
 			),
+			*/
 		);
 	}
 }
