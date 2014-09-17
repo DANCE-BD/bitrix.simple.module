@@ -13,6 +13,13 @@ $MESS["SM_ENTITY_SPL_ITEM_HREF_FIELD"] = "Ссылка на детальную �
 $MESS["SM_ENTITY_SPL_ITEM_NAME_FIELD"] = "Селектор названия товара";
 $MESS["SM_ENTITY_SPL_ITEM_PREVIEW_TEXT_FIELD"] = "Описание для анонса";
 $MESS["SM_ENTITY_SPL_ITEM_PREVIEW_PICTURE_FIELD"] = "Изображение для анонса";
+$MESS["SM_ENTITY_ITEM_PREVIEW_TEXT_TYPE_FIELD"] = "Тип описания для анонса";
+
+$MESS["SM_ENTITY_SPD_ITEM_FIELD"] = "Блок товара на детальной странице";
+$MESS["SM_ENTITY_SPD_ITEM_NAME_FIELD"] = "Селектор названия товара";
+$MESS["SM_ENTITY_SPD_ITEM_DETAIL_TEXT_FIELD"] = "Детальное для анонса";
+$MESS["SM_ENTITY_SPD_ITEM_DETAIL_PICTURE_FIELD"] = "Детальное изображение";
+$MESS["SM_ENTITY_ITEM_DETAIL_TEXT_TYPE_FIELD"] = "Тип детального описания";
 
 $MESS["SM_SORT_FIELD_ADMIN"] = "Сорт.";
 

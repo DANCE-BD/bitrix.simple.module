@@ -45,14 +45,16 @@ if(!$rs->ExtractFields("str_"))
 	$ID = 0;
 	$str_ACTIVE = "Y";
 	$str_SORT = 500;
+	$str_TIME_LIMIT = 30;
 }
 
 $APPLICATION->SetTitle($ID > 0 ? GetMessage("SM_ENTITY_EDIT_TITLE", array("#ID#" => $ID)) : GetMessage("SM_ENTITY_NEW_TITLE"));
 
 $aTabs = array();
-$aTabs[] = array("DIV" => "edit1", "TAB" => GetMessage("SM_ENTITY_TAB1"), "TITLE" => GetMessage("SM_ENTITY_TAB1_TITLE"), "FN" => array("NAME", "FULL_URL", "TIMESTAMP_X", "ACTIVE", "SORT", "TIME_LIMIT", "IBLOCK_ID"));
-$aTabs[] = array("DIV" => "edit2", "TAB" => GetMessage("SM_ENTITY_TAB2"), "TITLE" => GetMessage("SM_ENTITY_TAB2_TITLE"), "FN" => "SPL_*");
+$aTabs[] = array("DIV" => "edit1", "TAB" => GetMessage("SM_ENTITY_TAB1"), "TITLE" => GetMessage("SM_ENTITY_TAB1_TITLE"));
+$aTabs[] = array("DIV" => "edit2", "TAB" => GetMessage("SM_ENTITY_TAB2"), "TITLE" => GetMessage("SM_ENTITY_TAB2_TITLE"));
 $aTabs[] = array("DIV" => "edit3", "TAB" => GetMessage("SM_ENTITY_TAB3"), "TITLE" => GetMessage("SM_ENTITY_TAB3_TITLE"));
+$aTabs[] = array("DIV" => "edit3", "TAB" => GetMessage("SM_ENTITY_TAB4"), "TITLE" => GetMessage("SM_ENTITY_TAB4_TITLE"));
 
 $strError = "";
 $tabControl = new CAdminForm($sTableID, $aTabs);
@@ -87,13 +89,10 @@ if(
 		if(!in_array($key, array("TIMESTAMP_X")))
 		{
 			if($field instanceof Bitrix\Main\Entity\BooleanField)
-			{
-				$arFields[$key] = $_REQUEST[$key] == "Y" ? "Y" : "N";
-			}
-			else
-			{
-				$arFields[$key] = $_REQUEST[$key];
-			}
+				if(count(array_intersect($field->getValues(), array("Y", "N"))) == 2)
+					$_REQUEST[$key] ==  "Y" ? "Y" : "N";
+
+			$arFields[$key] = $_REQUEST[$key];
 		}
 	}
 
@@ -153,6 +152,9 @@ if($ID > 0)
 	);
 }
 
+if($bFromForm)
+	$DB->InitTableVarsForEdit($sDataClassName::getTableName(), "", "str_");
+
 $context = new CAdminContextMenu($aMenu);
 $context->Show();
 
@@ -178,7 +180,6 @@ $tabControl->BeginEpilogContent();
 <?
 $tabControl->EndEpilogContent();
 
-
 $tabControl->Begin(array(
 	"FORM_ACTION" => $APPLICATION->GetCurPage()."?ID=".intval($ID)."&lang=" . LANG
 ));
@@ -193,18 +194,42 @@ if(!function_exists("__drawRowFromField"))
 
 			?><tr>
 				<td width="40%"><? echo $tabControl->GetCustomLabelHTML(); ?></td>
-				<td><input type="checkbox" name="<? echo $field->getName(); ?>" value="Y"<? if(${"str_" . $field->getName()} == "Y") echo " checked"; ?>></td>
+				<td><?
+
+				if(count(array_intersect($field->getValues(), array("Y", "N"))) == 2)
+				{
+					?><input type="checkbox" name="<? echo $field->getName(); ?>" value="Y"<? if($GLOBALS["str_" . $field->getName()] == "Y") echo " checked"; ?>><?
+				}
+				else
+				{
+					$arr = array(
+						"REFERENCE_ID" => array(),
+						"REFERENCE" => array(),
+					);
+					foreach($field->getValues() as $val)
+					{
+						$arr["REFERENCE"][] = ($val == "Y" ? GetMessage("MAIN_YES") : ($val == "N" ? GetMessage("MAIN_NO") : $val));
+						$arr["REFERENCE_ID"][] = $val;
+					}
+					echo SelectBoxFromArray($field->getName(), $arr,  $GLOBALS["str_" . $field->getName()]);
+				}
+				?></td>
 			</tr><?
 
 			$tabControl->EndCustomField($field->getName());
+
+		}
+
+		if($field instanceof Bitrix\Main\Entity\BooleanField)
+		{
 		}
 		elseif($field instanceof Bitrix\Main\Entity\DatetimeField)
 		{
-			$tabControl->AddCalendarField($field->getName(), $field->getTitle() . ":", ${"str_" . $field->getName()}, $field->isRequired());
+			$tabControl->AddCalendarField($field->getName(), $field->getTitle() . ":", $GLOBALS["str_" . $field->getName()], $field->isRequired());
 		}
 		else
 		{
-			$tabControl->AddEditField($field->getName(), $field->getTitle() . ":", $field->isRequired(), array("size" => (in_array($field->getName(), array("SORT", "TIME_LIMIT")) ? 4 : 50), "maxlength" => 255), ${"str_" . $field->getName()});
+			$tabControl->AddEditField($field->getName(), $field->getTitle() . ":", $field->isRequired(), array("size" => (in_array($field->getName(), array("SORT", "TIME_LIMIT")) ? 4 : 50), "maxlength" => 255), $GLOBALS["str_" . $field->getName()]);
 		}
 
 	}
@@ -253,8 +278,25 @@ $tabControl->EndCustomField("SELECTOR_NOTES");
 __drawRowFromField($tabControl, $arEditFields["SPL_ITEM"]);
 __drawRowFromField($tabControl, $arEditFields["SPL_ITEM_HREF"]);
 __drawRowFromField($tabControl, $arEditFields["SPL_ITEM_NAME"]);
+__drawRowFromField($tabControl, $arEditFields["ITEM_PREVIEW_TEXT_TYPE"]);
 __drawRowFromField($tabControl, $arEditFields["SPL_ITEM_PREVIEW_TEXT"]);
 __drawRowFromField($tabControl, $arEditFields["SPL_ITEM_PREVIEW_PICTURE"]);
+
+$tabControl->BeginNextFormTab();
+
+$tabControl->BeginCustomField("SELECTOR_NOTES", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
+
+?><tr>
+	<td width="40%"></td><td><? echo BeginNote(), GetMessage("SM_ENTITY_SELECTOR_NOTES"), EndNote(); ?></td>
+</tr><?
+
+$tabControl->EndCustomField("SELECTOR_NOTES");
+
+__drawRowFromField($tabControl, $arEditFields["SPD_ITEM"]);
+__drawRowFromField($tabControl, $arEditFields["SPD_ITEM_NAME"]);
+__drawRowFromField($tabControl, $arEditFields["ITEM_DETAIL_TEXT_TYPE"]);
+__drawRowFromField($tabControl, $arEditFields["SPD_ITEM_DETAIL_TEXT"]);
+__drawRowFromField($tabControl, $arEditFields["SPD_ITEM_DETAIL_PICTURE"]);
 
 if(null !== $sUfid)
 {

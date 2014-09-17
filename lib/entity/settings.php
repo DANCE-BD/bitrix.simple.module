@@ -53,6 +53,7 @@ class SettingsTable extends DataManager
 			),
 			"SORT" => array(
 				"data_type" => "integer",
+				"default" => 500,
 				"title" => Loc::getMessage("SM_ENTITY_SORT_FIELD"),
 			),
 			"TIME_LIMIT" => array(
@@ -86,6 +87,36 @@ class SettingsTable extends DataManager
 			"SPL_ITEM_PREVIEW_PICTURE" => array(
 				"data_type" => "string",
 				"title" => Loc::getMessage("SM_ENTITY_SPL_ITEM_PREVIEW_PICTURE_FIELD"),
+			),
+			"ITEM_PREVIEW_TEXT_TYPE" => array(
+				"data_type" => "boolean",
+				"required" => true,
+				"values" => array("html","text"),
+				"title" => Loc::getMessage("SM_ENTITY_ITEM_PREVIEW_TEXT_TYPE_FIELD"),
+			),
+
+			"SPD_ITEM" => array(
+				"data_type" => "string",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_SPD_ITEM_FIELD"),
+			),
+			"SPD_ITEM_NAME" => array(
+				"data_type" => "string",
+				"title" => Loc::getMessage("SM_ENTITY_SPD_ITEM_NAME_FIELD"),
+			),
+			"SPD_ITEM_DETAIL_TEXT" => array(
+				"data_type" => "string",
+				"title" => Loc::getMessage("SM_ENTITY_SPD_ITEM_DETAIL_TEXT_FIELD"),
+			),
+			"SPD_ITEM_DETAIL_PICTURE" => array(
+				"data_type" => "string",
+				"title" => Loc::getMessage("SM_ENTITY_SPD_ITEM_DETAIL_PICTURE_FIELD"),
+			),
+			"ITEM_DETAIL_TEXT_TYPE" => array(
+				"data_type" => "boolean",
+				"required" => true,
+				"values" => array("html","text"),
+				"title" => Loc::getMessage("SM_ENTITY_ITEM_DETAIL_TEXT_TYPE_FIELD"),
 			),
 		);
 	}
