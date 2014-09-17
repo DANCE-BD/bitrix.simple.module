@@ -8,6 +8,10 @@ CREATE TABLE IF NOT EXISTS xdev_parser_settings (
 	TIME_LIMIT	int(11) NULL,
  	IBLOCK_ID	int(11) NOT NULL REFERENCES b_iblock(ID),
 
+ 	SPS_ITEM			varchar(255) NOT NULL,
+ 	SPS_ITEM_HREF			varchar(255) NOT NULL,
+ 	SPS_ITEM_NAME			varchar(255) NOT NULL,
+
  	SPL_ITEM			varchar(255) NOT NULL,
  	SPL_ITEM_HREF			varchar(255) NOT NULL,
  	SPL_ITEM_NAME			varchar(255) NOT NULL,

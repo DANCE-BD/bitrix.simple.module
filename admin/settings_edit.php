@@ -54,7 +54,7 @@ $aTabs = array();
 $aTabs[] = array("DIV" => "edit1", "TAB" => GetMessage("SM_ENTITY_TAB1"), "TITLE" => GetMessage("SM_ENTITY_TAB1_TITLE"));
 $aTabs[] = array("DIV" => "edit2", "TAB" => GetMessage("SM_ENTITY_TAB2"), "TITLE" => GetMessage("SM_ENTITY_TAB2_TITLE"));
 $aTabs[] = array("DIV" => "edit3", "TAB" => GetMessage("SM_ENTITY_TAB3"), "TITLE" => GetMessage("SM_ENTITY_TAB3_TITLE"));
-$aTabs[] = array("DIV" => "edit3", "TAB" => GetMessage("SM_ENTITY_TAB4"), "TITLE" => GetMessage("SM_ENTITY_TAB4_TITLE"));
+$aTabs[] = array("DIV" => "edit4", "TAB" => GetMessage("SM_ENTITY_TAB4"), "TITLE" => GetMessage("SM_ENTITY_TAB4_TITLE"));
 
 $strError = "";
 $tabControl = new CAdminForm($sTableID, $aTabs);
@@ -267,13 +267,27 @@ $tabControl->EndCustomField("IBLOCK_ID");
 
 $tabControl->BeginNextFormTab();
 
-$tabControl->BeginCustomField("SELECTOR_NOTES", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
+$tabControl->BeginCustomField("SELECTOR_NOTES1", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
 
 ?><tr>
 	<td width="40%"></td><td><? echo BeginNote(), GetMessage("SM_ENTITY_SELECTOR_NOTES"), EndNote(); ?></td>
 </tr><?
 
-$tabControl->EndCustomField("SELECTOR_NOTES");
+$tabControl->EndCustomField("SELECTOR_NOTES1");
+
+__drawRowFromField($tabControl, $arEditFields["SPS_ITEM"]);
+__drawRowFromField($tabControl, $arEditFields["SPS_ITEM_HREF"]);
+__drawRowFromField($tabControl, $arEditFields["SPS_ITEM_NAME"]);
+
+$tabControl->BeginNextFormTab();
+
+$tabControl->BeginCustomField("SELECTOR_NOTES2", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
+
+?><tr>
+	<td width="40%"></td><td><? echo BeginNote(), GetMessage("SM_ENTITY_SELECTOR_NOTES"), EndNote(); ?></td>
+</tr><?
+
+$tabControl->EndCustomField("SELECTOR_NOTES2");
 
 __drawRowFromField($tabControl, $arEditFields["SPL_ITEM"]);
 __drawRowFromField($tabControl, $arEditFields["SPL_ITEM_HREF"]);
@@ -284,7 +298,7 @@ __drawRowFromField($tabControl, $arEditFields["SPL_ITEM_PREVIEW_PICTURE"]);
 
 $tabControl->BeginNextFormTab();
 
-$tabControl->BeginCustomField("SELECTOR_NOTES", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
+$tabControl->BeginCustomField("SELECTOR_NOTES3", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
 
 ?><tr>
 	<td width="40%"></td><td><? echo BeginNote(), GetMessage("SM_ENTITY_SELECTOR_NOTES"), EndNote(); ?></td>

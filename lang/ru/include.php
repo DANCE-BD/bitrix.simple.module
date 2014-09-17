@@ -8,6 +8,10 @@ $MESS["SM_ENTITY_NAME_FIELD"] = "Название";
 $MESS["SM_ENTITY_FULL_URL_FIELD"] = "URL раздела каталога";
 $MESS["SM_ENTITY_TIME_LIMIT_FIELD"] = "Время, в секундах на один шаг (0) - все сразу";
 
+$MESS["SM_ENTITY_SPS_ITEM_FIELD"] = "Блок ссылок на разделы";
+$MESS["SM_ENTITY_SPS_ITEM_HREF_FIELD"] = "Ссылка на страницу раздела";
+$MESS["SM_ENTITY_SPS_ITEM_NAME_FIELD"] = "Селектор названия раздела";
+
 $MESS["SM_ENTITY_SPL_ITEM_FIELD"] = "Блок товара на странице списка";
 $MESS["SM_ENTITY_SPL_ITEM_HREF_FIELD"] = "Ссылка на детальную страницу";
 $MESS["SM_ENTITY_SPL_ITEM_NAME_FIELD"] = "Селектор названия товара";

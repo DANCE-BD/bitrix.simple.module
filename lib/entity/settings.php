@@ -66,6 +66,21 @@ class SettingsTable extends DataManager
 				"title" => Loc::getMessage("SM_ENTITY_IBLOCK_ID_FIELD"),
 			),
 
+			"SPS_ITEM" => array(
+				"data_type" => "string",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_SPS_ITEM_FIELD"),
+			),
+			"SPS_ITEM_HREF" => array(
+				"data_type" => "string",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_SPS_ITEM_HREF_FIELD"),
+			),
+			"SPS_ITEM_NAME" => array(
+				"data_type" => "string",
+				"title" => Loc::getMessage("SM_ENTITY_SPS_ITEM_NAME_FIELD"),
+			),
+
 			"SPL_ITEM" => array(
 				"data_type" => "string",
 				"required" => true,
