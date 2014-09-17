@@ -2,6 +2,7 @@
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_admin_before.php");
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/tools/prop_userid.php");
 \Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
+\Bitrix\Main\Loader::includeModule("iblock");
 
 /**
  * List redirect page
@@ -33,7 +34,7 @@ if($MODULE_RIGHT < "W") $APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));
 CModule::IncludeModuleEx($module_id);
 
 $sTableID = preg_replace("/\\\+/", "_", $sDataClassName) . "_edit";
-$sUfid = $sDataClassName::getUfId();
+// $sUfid = $sDataClassName::getUfId();
 
 $ID = intval($_REQUEST["ID"]);
 
@@ -49,7 +50,9 @@ if(!$rs->ExtractFields("str_"))
 $APPLICATION->SetTitle($ID > 0 ? GetMessage("SM_ENTITY_EDIT_TITLE", array("#ID#" => $ID)) : GetMessage("SM_ENTITY_NEW_TITLE"));
 
 $aTabs = array();
-$aTabs[] = array("DIV" => "edit1", "TAB" => GetMessage("SM_ENTITY_TAB1"), "TITLE" => GetMessage("SM_ENTITY_TAB1_TITLE"));
+$aTabs[] = array("DIV" => "edit1", "TAB" => GetMessage("SM_ENTITY_TAB1"), "TITLE" => GetMessage("SM_ENTITY_TAB1_TITLE"), "FN" => array("NAME", "FULL_URL", "TIMESTAMP_X", "ACTIVE", "SORT", "TIME_LIMIT", "IBLOCK_ID"));
+$aTabs[] = array("DIV" => "edit2", "TAB" => GetMessage("SM_ENTITY_TAB2"), "TITLE" => GetMessage("SM_ENTITY_TAB2_TITLE"), "FN" => "SPL_*");
+$aTabs[] = array("DIV" => "edit3", "TAB" => GetMessage("SM_ENTITY_TAB3"), "TITLE" => GetMessage("SM_ENTITY_TAB3_TITLE"));
 
 $strError = "";
 $tabControl = new CAdminForm($sTableID, $aTabs);
@@ -180,6 +183,34 @@ $tabControl->Begin(array(
 	"FORM_ACTION" => $APPLICATION->GetCurPage()."?ID=".intval($ID)."&lang=" . LANG
 ));
 
+if(!function_exists("__drawRowFromField"))
+{
+	function __drawRowFromField(&$tabControl, &$field, $name, $value)
+	{
+		if($field instanceof Bitrix\Main\Entity\BooleanField)
+		{
+			$tabControl->BeginCustomField($field->getName(), $field->getTitle() . ":", $field->isRequired());
+
+			?><tr>
+				<td width="40%"><? echo $tabControl->GetCustomLabelHTML(); ?></td>
+				<td><input type="checkbox" name="<? echo $field->getName(); ?>" value="Y"<? if(${"str_" . $field->getName()} == "Y") echo " checked"; ?>></td>
+			</tr><?
+
+			$tabControl->EndCustomField($field->getName());
+		}
+		elseif($field instanceof Bitrix\Main\Entity\DatetimeField)
+		{
+			$tabControl->AddCalendarField($field->getName(), $field->getTitle() . ":", ${"str_" . $field->getName()}, $field->isRequired());
+		}
+		else
+		{
+			$tabControl->AddEditField($field->getName(), $field->getTitle() . ":", $field->isRequired(), array("size" => (in_array($field->getName(), array("SORT", "TIME_LIMIT")) ? 4 : 50), "maxlength" => 255), ${"str_" . $field->getName()});
+		}
+
+	}
+}
+
+
 $tabControl->BeginNextFormTab();
 
 if($ID > 0)
@@ -195,54 +226,41 @@ if($ID > 0)
 	}
 }
 
-foreach($arEditFields as $key => $field)
-{
-	if($field instanceof Bitrix\Main\Entity\BooleanField)
-	{
-//TODO: make dropdown here
-		$tabControl->BeginCustomField($field->getName(), $field->getTitle() . ":", $field->isRequired());
+__drawRowFromField($tabControl, $arEditFields["NAME"]);
+__drawRowFromField($tabControl, $arEditFields["ACTIVE"]);
+__drawRowFromField($tabControl, $arEditFields["SORT"]);
+__drawRowFromField($tabControl, $arEditFields["FULL_URL"]);
+__drawRowFromField($tabControl, $arEditFields["TIME_LIMIT"]);
 
-		?><tr>
-			<td width="40%"><? echo $tabControl->GetCustomLabelHTML(); ?></td>
-			<td><input type="checkbox" name="<? echo $field->getName(); ?>" value="Y"<? if(${"str_" . $field->getName()} == "Y") echo " checked"; ?>></td>
-		</tr><?
+$tabControl->BeginCustomField("IBLOCK_ID", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
+?><tr>
+	<td> <? echo $tabControl->GetCustomLabelHTML(); ?></td>
+	<td><? echo GetIBlockDropDownList($str_IBLOCK_ID, "IBLOCK_TYPE", "IBLOCK_ID"); ?></td>
+</tr><?
+$tabControl->EndCustomField("IBLOCK_ID");
 
-		$tabControl->EndCustomField($field->getName());
-	}
-	elseif($field instanceof Bitrix\Main\Entity\DatetimeField)
-	{
-		$tabControl->AddCalendarField($field->getName(), $field->getTitle() . ":", ${"str_" . $field->getName()}, $field->isRequired());
-	}
-	else
-	{
-		$tabControl->AddEditField($field->getName(), $field->getTitle() . ":", $field->isRequired(), array("size" => 4, "maxlength" => 255), ${"str_" . $field->getName()});
-	}
-}
+
+$tabControl->BeginNextFormTab();
+
+$tabControl->BeginCustomField("SELECTOR_NOTES", GetMessage("SM_ENTITY_IBLOCK_ID_FIELD") . ":", true);
+
+?><tr>
+	<td width="40%"></td><td><? echo BeginNote(), GetMessage("SM_ENTITY_SELECTOR_NOTES"), EndNote(); ?></td>
+</tr><?
+
+$tabControl->EndCustomField("SELECTOR_NOTES");
+
+__drawRowFromField($tabControl, $arEditFields["SPL_ITEM"]);
+__drawRowFromField($tabControl, $arEditFields["SPL_ITEM_HREF"]);
+__drawRowFromField($tabControl, $arEditFields["SPL_ITEM_NAME"]);
+__drawRowFromField($tabControl, $arEditFields["SPL_ITEM_PREVIEW_TEXT"]);
+__drawRowFromField($tabControl, $arEditFields["SPL_ITEM_PREVIEW_PICTURE"]);
 
 if(null !== $sUfid)
 {
+	$tabControl->BeginNextFormTab();
 	$tabControl->ShowUserFields($sUfid, $ID, $bFromForm);
 }
-
-/*
-$tabControl->BeginCustomField("WORK_FROM", GetMessage("EMPLOYEE_ENTITY_WORK_FROM_FIELD") . ":", true);
-?><tr>
-	<td> <? echo $tabControl->GetCustomLabelHTML(); ?></td>
-	<td><?$APPLICATION->IncludeComponent(
-		"bitrix:main.clock",
-		"",
-		Array(
-			"INPUT_ID" => "WORK_FROM",
-			"INPUT_NAME" => "WORK_FROM",
-			"INPUT_TITLE" => GetMessage("EMPLOYEE_ENTITY_WORK_FROM_FIELD"),
-			"INIT_TIME" => $str_WORK_FROM,
-			"STEP" => "0"
-		),
-	false
-	);?></td>
-</tr><?
-$tabControl->EndCustomField("WORK_FROM");
-*/
 
 $tabControl->Buttons(array(
 	"btnSaveAndAdd" => true,

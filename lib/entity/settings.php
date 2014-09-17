@@ -31,6 +31,16 @@ class SettingsTable extends DataManager
 				"autocomplete" => true,
 				"title" => Loc::getMessage("SM_ENTITY_ID_FIELD"),
 			),
+			"NAME" => array(
+				"data_type" => "string",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_NAME_FIELD"),
+			),
+			"FULL_URL" => array(
+				"data_type" => "string",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_FULL_URL_FIELD"),
+			),
 			"TIMESTAMP_X" => array(
 				"data_type" => "datetime",
 				"title" => Loc::getMessage("SM_ENTITY_TIMESTAMP_X_FIELD"),
@@ -44,6 +54,38 @@ class SettingsTable extends DataManager
 			"SORT" => array(
 				"data_type" => "integer",
 				"title" => Loc::getMessage("SM_ENTITY_SORT_FIELD"),
+			),
+			"TIME_LIMIT" => array(
+				"data_type" => "integer",
+				"title" => Loc::getMessage("SM_ENTITY_TIME_LIMIT_FIELD"),
+			),
+			"IBLOCK_ID" => array(
+				"data_type" => "integer",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_IBLOCK_ID_FIELD"),
+			),
+
+			"SPL_ITEM" => array(
+				"data_type" => "string",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_SPL_ITEM_FIELD"),
+			),
+			"SPL_ITEM_HREF" => array(
+				"data_type" => "string",
+				"required" => true,
+				"title" => Loc::getMessage("SM_ENTITY_SPL_ITEM_HREF_FIELD"),
+			),
+			"SPL_ITEM_NAME" => array(
+				"data_type" => "string",
+				"title" => Loc::getMessage("SM_ENTITY_SPL_ITEM_NAME_FIELD"),
+			),
+			"SPL_ITEM_PREVIEW_TEXT" => array(
+				"data_type" => "string",
+				"title" => Loc::getMessage("SM_ENTITY_SPL_ITEM_PREVIEW_TEXT_FIELD"),
+			),
+			"SPL_ITEM_PREVIEW_PICTURE" => array(
+				"data_type" => "string",
+				"title" => Loc::getMessage("SM_ENTITY_SPL_ITEM_PREVIEW_PICTURE_FIELD"),
 			),
 		);
 	}
