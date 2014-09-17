@@ -7,5 +7,9 @@ $MESS["SM_ENTITY_SORT_FIELD"] = "Индекс сортировки";
 $MESS[""] = "";
 
 $MESS["SM_SORT_FIELD_ADMIN"] = "Сорт.";
+
+$MESS["SM_PARTNER_URL"] = "http://x-dev.ru";
+
+$MESS["SM_PARTNER_NAME"] = "X developers";
 $MESS[""] = "";
 ?>

@@ -1,10 +1,10 @@
 <?
 IncludeModuleLangFile(__FILE__);
 
-class simple_module extends CModule
+class xdev_parser extends CModule
 {
-	const MODULE_ID = "simple.module";
-	public $MODULE_ID = "simple.module";
+	const MODULE_ID = "xdev.parser";
+	public $MODULE_ID = "xdev.parser";
 	public $MODULE_VERSION;
 	public $MODULE_VERSION_DATE;
 	public $MODULE_NAME;
@@ -165,7 +165,7 @@ class simple_module extends CModule
 			$this->InstallDB();
 			\CModule::IncludeModule(self::MODULE_ID);
 
-			$this->InstallUserTypes();
+			// $this->InstallUserTypes();
 			$this->InstallFiles();
 			$this->InstallEvents();
 			$this->InstallAgents();
@@ -199,7 +199,7 @@ class simple_module extends CModule
 			{
 				\CModule::IncludeModule(self::MODULE_ID);
 
-				$this->UnInstallUserTypes(array("savedata" => $_REQUEST["savedata"]));
+				// $this->UnInstallUserTypes(array("savedata" => $_REQUEST["savedata"]));
 				$this->UnInstallDB(array("savedata" => $_REQUEST["savedata"]));
 				$this->UnInstallFiles();
 				$this->UnInstallEvents();

@@ -1,16 +1,16 @@
 <?
 \Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
 
-$RIGHTS = $APPLICATION->GetGroupRight("simple.module");
+$RIGHTS = $APPLICATION->GetGroupRight("xdev.parser");
 if($RIGHTS > "D")
 {
 	$arItems = array();
 	if($RIGHTS >= "W")
 		$arItems[] = array(
 			"text" => GetMessage("SM_MENU_ENTITY_LIST"),
-			"url" => "simple_module_domain_admin.php?lang=".LANGUAGE_ID,
+			"url" => "xdev_parser_settings_list.php?lang=".LANGUAGE_ID,
 			"title" => GetMessage("SM_MENU_ENTITY_LIST_ALT"),
-			"more_url" => array("simple_module_domain_edit.php")
+			"more_url" => array("xdev_parser_settings_edit.php")
 		);
 	$aMenu = array(
 		"parent_menu" => "global_menu_services",
@@ -18,7 +18,7 @@ if($RIGHTS > "D")
 		"text" => GetMessage("SM_MENU"),
 		"title"=> GetMessage("SM_MENU_ALT"),
 		"icon" => "sale_menu_icon_orders",
-		"items_id" => "menu_simple.module",
+		"items_id" => "menu_xdev.parser",
 		"items" => $arItems
 	);
 	return $aMenu;

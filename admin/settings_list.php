@@ -7,19 +7,19 @@ CPageOption::GetOptionString("main", "nav_page_in_session", "N");
  * Entity edit page
  * @var string
  */
-$strEditPath = BX_ROOT."/admin/simple_module_domain_edit.php?lang=" . LANGUAGE_ID;
+$strEditPath = BX_ROOT."/admin/xdev_parser_settings_edit.php?lang=" . LANGUAGE_ID;
 
 /**
  * Endity datamanager classname
  * @var string
  */
-$sDataClassName = "\SimpleModule\EntityTable";
+$sDataClassName = "xdev\parser\Entity\SettingsTable";
 
 /**
  * Module id
  * @var string
  */
-$module_id = "simple.module";
+$module_id = "xdev.parser";
 
 $MODULE_RIGHT = $APPLICATION->GetGroupRight($module_id);
 if($MODULE_RIGHT == "D") $APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));

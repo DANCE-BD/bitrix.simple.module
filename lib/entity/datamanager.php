@@ -1,5 +1,5 @@
 <?
-namespace SimpleModule;
+namespace xdev\parser\Entity;
 
 use Bitrix\Main\Entity\Event;
 use Bitrix\Main\Entity\Base;
