@@ -1,5 +1,5 @@
 <?
-namespace xdev\parser\Entity;
+namespace simple\module\Entity;
 
 use Bitrix\Main\Entity\Event;
 use Bitrix\Main\Entity\Base;

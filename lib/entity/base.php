@@ -1,5 +1,5 @@
 <?
-namespace xdev\parser\Entity;
+namespace simple\module\Entity;
 
 abstract class Base
 {

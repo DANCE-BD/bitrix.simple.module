@@ -1,5 +1,5 @@
 <?
-namespace xdev\parser\Remote\Entity;
+namespace simple\module\Remote\Entity;
 
 abstract class IBlockElement extends IBlock
 {

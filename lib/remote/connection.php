@@ -1,5 +1,5 @@
 <?
-namespace \xdev\parser\Remote;
+namespace \simple\module\Remote;
 
 class Connection
 {

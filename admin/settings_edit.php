@@ -20,7 +20,7 @@ $strRedirect = BX_ROOT."/admin/simple_module_settings_edit.php?lang=" . LANGUAGE
  * Endity datamanager classname
  * @var string
  */
-$sDataClassName = "xdev\parser\Entity\SettingsTable";
+$sDataClassName = "simple\module\Entity\SettingsTable";
 
 /**
  * Module id
