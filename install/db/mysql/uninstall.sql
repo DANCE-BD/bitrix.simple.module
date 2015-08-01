@@ -1,2 +1,2 @@
-DROP TRIGGER IF EXISTS xdev_parser_settings_add_timestamp;
-DROP TABLE xdev_parser_settings;
+DROP TRIGGER IF EXISTS simple_module_settings_add_timestamp;
+DROP TABLE simple_module_settings;

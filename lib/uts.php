@@ -15,7 +15,7 @@ class UtsEntityTable extends \Bitrix\Main\Entity\DataManager
 
 	public static function getTableName()
 	{
-		return "xdev_parser_uts_domain_entity";
+		return "simple_module_uts_domain_entity";
 	}
 
 	public static function isUts()

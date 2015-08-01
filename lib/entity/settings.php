@@ -19,7 +19,7 @@ class SettingsTable extends DataManager
 
 	public static function getTableName()
 	{
-		return "xdev_parser_settings";
+		return "simple_module_settings";
 	}
 
 	public static function getMap()

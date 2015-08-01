@@ -2,10 +2,10 @@
 \Bitrix\Main\Localization\Loc::loadMessages(__FILE__);
 IncludeModuleLangFile($_SERVER["DOCUMENT_ROOT"].BX_ROOT."/modules/main/options.php");
 
-$module_id = "xdev.parser";
+$module_id = "simple.module";
 
 global $settings_id;
-$settings_id = "xdev_parser";
+$settings_id = "simple_module";
 
 $MODULE_RIGHT = $APPLICATION->GetGroupRight($module_id);
 if($MODULE_RIGHT < "W")

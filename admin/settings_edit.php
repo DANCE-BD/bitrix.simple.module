@@ -8,13 +8,13 @@ require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/tools/prop_userid.p
  * List redirect page
  * @var string
  */
-$strRedirect_admin = BX_ROOT."/admin/xdev_parser_settings_list.php?lang=" . LANGUAGE_ID;
+$strRedirect_admin = BX_ROOT."/admin/simple_module_settings_list.php?lang=" . LANGUAGE_ID;
 
 /**
  * Success redirect page
  * @var string
  */
-$strRedirect = BX_ROOT."/admin/xdev_parser_settings_edit.php?lang=" . LANGUAGE_ID;
+$strRedirect = BX_ROOT."/admin/simple_module_settings_edit.php?lang=" . LANGUAGE_ID;
 
 /**
  * Endity datamanager classname
@@ -26,7 +26,7 @@ $sDataClassName = "xdev\parser\Entity\SettingsTable";
  * Module id
  * @var string
  */
-$module_id = "xdev.parser";
+$module_id = "simple.module";
 
 $MODULE_RIGHT = $APPLICATION->GetGroupRight($module_id);
 if($MODULE_RIGHT < "W") $APPLICATION->AuthForm(GetMessage("ACCESS_DENIED"));

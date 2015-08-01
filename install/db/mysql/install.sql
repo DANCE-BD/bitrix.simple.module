@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS xdev_parser_settings (
+CREATE TABLE IF NOT EXISTS simple_module_settings (
 	ID		int(11) unsigned NOT NULL AUTO_INCREMENT,
 	NAME 		varchar(255) NOT NULL,
 	FULL_URL	varchar(255) NOT NULL,
@@ -27,5 +27,5 @@ CREATE TABLE IF NOT EXISTS xdev_parser_settings (
 
 	PRIMARY KEY	(ID)
 );
-DROP TRIGGER IF EXISTS xdev_parser_settings_add_timestamp;
-CREATE TRIGGER xdev_parser_settings_add_timestamp BEFORE INSERT ON xdev_parser_settings FOR EACH ROW SET NEW.TIMESTAMP_X = now();
+DROP TRIGGER IF EXISTS simple_module_settings_add_timestamp;
+CREATE TRIGGER simple_module_settings_add_timestamp BEFORE INSERT ON simple_module_settings FOR EACH ROW SET NEW.TIMESTAMP_X = now();

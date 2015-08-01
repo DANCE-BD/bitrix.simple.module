@@ -1,10 +1,10 @@
 <?
 IncludeModuleLangFile(__FILE__);
 
-class xdev_parser extends CModule
+class simple_module extends CModule
 {
-	const MODULE_ID = "xdev.parser";
-	public $MODULE_ID = "xdev.parser";
+	const MODULE_ID = "simple.module";
+	public $MODULE_ID = "simple.module";
 	public $MODULE_VERSION;
 	public $MODULE_VERSION_DATE;
 	public $MODULE_NAME;

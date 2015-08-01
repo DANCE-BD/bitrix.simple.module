@@ -17,7 +17,7 @@ class UtmEntityTable extends DataManager
 
 	public static function getTableName()
 	{
-		return "xdev_parser_utm_domain_entity";
+		return "simple_module_utm_domain_entity";
 	}
 
 	public static function isUtm()
