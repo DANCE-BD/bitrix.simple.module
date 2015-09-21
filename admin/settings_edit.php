@@ -86,13 +86,16 @@ if(
 	$arFields = array();
 	foreach($arEditFields as $key => $field)
 	{
-		if(!in_array($key, array("TIMESTAMP_X")))
+		if(!in_array($key, array("TIMESTAMP_X", "DATE_INSERT")))
 		{
+			$value = $_REQUEST[$key];
 			if($field instanceof Bitrix\Main\Entity\BooleanField)
 				if(count(array_intersect($field->getValues(), array("Y", "N"))) == 2)
-					$_REQUEST[$key] ==  "Y" ? "Y" : "N";
+					$value ==  "Y" ? "Y" : "N";
+			elseif($field instanceof Bitrix\Main\Entity\DatetimeField)
+				$value = new \Bitrix\Main\Type\DateTime($value);
 
-			$arFields[$key] = $_REQUEST[$key];
+			$arFields[$key] = $value;
 		}
 	}
 
